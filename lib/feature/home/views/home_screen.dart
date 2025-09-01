@@ -189,7 +189,7 @@ class _HomeScreenState extends State<HomeScreen> {
                             (context, index) => const SizedBox(height: 10),
                       );
                     } else {
-                      return const SizedBox();
+                      return SliverToBoxAdapter(child: const SizedBox());
                     }
                   },
                 ),

@@ -1,5 +1,6 @@
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
+import 'package:shimmer/shimmer.dart';
 
 import '../models/restaurant.dart';
 
@@ -40,10 +41,23 @@ class RestaurantItemWidget extends StatelessWidget {
             ClipRRect(
               borderRadius: BorderRadius.circular(8),
               child: Image.network(
-                data?.pictureId ?? '-',
+                'https://restaurant-api.dicoding.dev/images/large/${data?.pictureId ?? ''}',
                 width: 80,
                 height: 80,
                 fit: BoxFit.cover,
+                loadingBuilder: (context, value, loadingProgress) {
+                  if (loadingProgress == null) return value;
+
+                  return Shimmer.fromColors(
+                    baseColor: Colors.grey[300]!,
+                    highlightColor: Colors.grey[200]!,
+                    child: Container(
+                      width: 80,
+                      height: 80,
+                      color: Colors.white,
+                    ),
+                  );
+                },
                 errorBuilder: (context, error, stackTrace) {
                   return Container(
                     width: 80,
