@@ -1,8 +1,10 @@
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:shimmer/shimmer.dart';
 
 import '../models/restaurant.dart';
+import '../viewmodels/bookmark_restaurant_provider.dart';
 
 class RestaurantItemWidget extends StatelessWidget {
   final Restaurant? data;
@@ -140,22 +142,18 @@ class RestaurantItemWidget extends StatelessWidget {
               ),
             ),
             SizedBox(width: 10),
-            Column(
-              children: [
-                IconButton(
-                  onPressed: () {},
+            Consumer<BookmarkRestaurantProvider>(
+              builder: (context, bookmarkProvider, _) {
+                final isBookmarked = bookmarkProvider.isBookmarked(data!.id);
+
+                return IconButton(
+                  onPressed: () => bookmarkProvider.toggleBookmark(data!.id),
                   icon: Icon(
-                    Icons.bookmark_border,
-                    color: Colors.grey[600],
-                    size: 20,
+                    isBookmarked ? Icons.bookmark : Icons.bookmark_border,
+                    color: isBookmarked ? Colors.amber[700] : Colors.grey[600],
                   ),
-                  padding: EdgeInsets.zero,
-                  constraints: const BoxConstraints(
-                    minWidth: 32,
-                    minHeight: 32,
-                  ),
-                ),
-              ],
+                );
+              },
             ),
           ],
         ),

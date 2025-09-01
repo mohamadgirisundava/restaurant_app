@@ -5,6 +5,7 @@ import 'package:restaurant_app/core/style/themes/main_theme.dart';
 import 'package:restaurant_app/feature/home/views/home_screen.dart';
 import 'package:restaurant_app/feature/home/viewmodels/home_provider.dart';
 import 'package:restaurant_app/feature/restaurant/services/restaurant_service.dart';
+import 'package:restaurant_app/feature/restaurant/viewmodels/bookmark_restaurant_provider.dart';
 
 import 'feature/restaurant/viewmodels/restaurant_list_provider.dart';
 
@@ -19,6 +20,7 @@ void main() {
               (context) =>
                   RestaurantListProvider(context.read<RestaurantService>()),
         ),
+        ChangeNotifierProvider(create: (_) => BookmarkRestaurantProvider()),
       ],
       child: const MyApp(),
     ),
