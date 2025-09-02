@@ -2,10 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:restaurant_app/core/static/navigation_route.dart';
 import 'package:restaurant_app/core/style/themes/main_theme.dart';
-import 'package:restaurant_app/feature/home/views/home_screen.dart';
 import 'package:restaurant_app/feature/home/viewmodels/home_provider.dart';
+import 'package:restaurant_app/feature/main/viewmodels/index_nav_provider.dart';
+import 'package:restaurant_app/feature/main/views/main_screen.dart';
 import 'package:restaurant_app/feature/restaurant/services/restaurant_service.dart';
-import 'package:restaurant_app/feature/restaurant/viewmodels/bookmark_restaurant_provider.dart';
+import 'package:restaurant_app/feature/restaurant/viewmodels/restaurant_bookmark_provider.dart';
 
 import 'feature/restaurant/viewmodels/restaurant_list_provider.dart';
 
@@ -13,6 +14,7 @@ void main() {
   runApp(
     MultiProvider(
       providers: [
+        ChangeNotifierProvider(create: (_) => IndexNavProvider()),
         ChangeNotifierProvider(create: (_) => ThemeProvider()),
         Provider(create: (context) => RestaurantService()),
         ChangeNotifierProvider(
@@ -20,7 +22,7 @@ void main() {
               (context) =>
                   RestaurantListProvider(context.read<RestaurantService>()),
         ),
-        ChangeNotifierProvider(create: (_) => BookmarkRestaurantProvider()),
+        ChangeNotifierProvider(create: (_) => RestaurantBookmarkProvider()),
       ],
       child: const MyApp(),
     ),
@@ -50,7 +52,7 @@ class MyApp extends StatelessWidget {
           },
           initialRoute: '/',
           routes: {
-            NavigationRoute.mainRoute.name: (context) => const HomeScreen(),
+            NavigationRoute.mainRoute.name: (context) => const MainScreen(),
             // NavigationRoute.detailRoute.name:
             // (context) => DetailScreen(
             // tourismId: ModalRoute.of(context)?.settings.arguments as int,

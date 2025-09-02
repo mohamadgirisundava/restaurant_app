@@ -4,7 +4,7 @@ import 'package:provider/provider.dart';
 import 'package:shimmer/shimmer.dart';
 
 import '../models/restaurant.dart';
-import '../viewmodels/bookmark_restaurant_provider.dart';
+import '../viewmodels/restaurant_bookmark_provider.dart';
 
 class RestaurantItemWidget extends StatelessWidget {
   final Restaurant? data;
@@ -142,12 +142,12 @@ class RestaurantItemWidget extends StatelessWidget {
               ),
             ),
             SizedBox(width: 10),
-            Consumer<BookmarkRestaurantProvider>(
+            Consumer<RestaurantBookmarkProvider>(
               builder: (context, bookmarkProvider, _) {
                 final isBookmarked = bookmarkProvider.isBookmarked(data!.id);
 
                 return IconButton(
-                  onPressed: () => bookmarkProvider.toggleBookmark(data!.id),
+                  onPressed: () => bookmarkProvider.toggleBookmark(data!),
                   icon: Icon(
                     isBookmarked ? Icons.bookmark : Icons.bookmark_border,
                     color: isBookmarked ? Colors.amber[700] : Colors.grey[600],

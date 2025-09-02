@@ -131,10 +131,11 @@ class _HomeScreenState extends State<HomeScreen> {
                                 color: Colors.redAccent,
                               ),
                               const SizedBox(height: 15),
-                              const AutoSizeText(
-                                'Oops! Something went wrong.\nPlease try again.',
+                              AutoSizeText(
+                                state.message,
                                 style: TextStyle(
-                                  color: Colors.black54,
+                                  color:
+                                      Theme.of(context).colorScheme.onSurface,
                                   fontSize: 14,
                                   fontWeight: FontWeight.w500,
                                 ),
