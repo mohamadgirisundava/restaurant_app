@@ -2,8 +2,15 @@ import 'package:flutter/material.dart';
 
 class SearchWidget extends StatelessWidget {
   final TextEditingController searchController;
+  final Function(String) onSearch;
+  final VoidCallback? onClear;
 
-  const SearchWidget({super.key, required this.searchController});
+  const SearchWidget({
+    super.key,
+    required this.searchController,
+    required this.onSearch,
+    this.onClear,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -19,7 +26,13 @@ class SearchWidget extends StatelessWidget {
           prefixIcon: const Icon(Icons.search),
           suffixIcon:
               searchController.text.isNotEmpty
-                  ? IconButton(icon: const Icon(Icons.clear), onPressed: () {})
+                  ? IconButton(
+                    icon: const Icon(Icons.clear),
+                    onPressed: () {
+                      searchController.clear();
+                      if (onClear != null) onClear!();
+                    },
+                  )
                   : null,
           border: OutlineInputBorder(
             borderRadius: BorderRadius.circular(8),
@@ -33,7 +46,11 @@ class SearchWidget extends StatelessWidget {
           ),
         ),
         onChanged: (value) {},
-        onSubmitted: (value) {},
+        onSubmitted: (value) {
+          if (value.trim().isNotEmpty) {
+            onSearch(value.trim());
+          }
+        },
       ),
     );
   }

@@ -7,6 +7,7 @@ import 'package:restaurant_app/feature/main/viewmodels/index_nav_provider.dart';
 import 'package:restaurant_app/feature/main/views/main_screen.dart';
 import 'package:restaurant_app/feature/restaurant/services/restaurant_service.dart';
 import 'package:restaurant_app/feature/restaurant/viewmodels/restaurant_bookmark_provider.dart';
+import 'package:restaurant_app/feature/restaurant/viewmodels/search_restaurant_provider.dart';
 
 import 'feature/restaurant/viewmodels/restaurant_list_provider.dart';
 
@@ -23,6 +24,11 @@ void main() {
                   RestaurantListProvider(context.read<RestaurantService>()),
         ),
         ChangeNotifierProvider(create: (_) => RestaurantBookmarkProvider()),
+        ChangeNotifierProvider(
+          create:
+              (context) =>
+                  SearchRestaurantProvider(context.read<RestaurantService>()),
+        ),
       ],
       child: const MyApp(),
     ),
