@@ -5,9 +5,12 @@ import 'package:restaurant_app/core/style/themes/main_theme.dart';
 import 'package:restaurant_app/feature/home/viewmodels/home_provider.dart';
 import 'package:restaurant_app/feature/main/viewmodels/index_nav_provider.dart';
 import 'package:restaurant_app/feature/main/views/main_screen.dart';
+import 'package:restaurant_app/feature/restaurant/models/restaurant.dart';
 import 'package:restaurant_app/feature/restaurant/services/restaurant_service.dart';
 import 'package:restaurant_app/feature/restaurant/viewmodels/restaurant_bookmark_provider.dart';
+import 'package:restaurant_app/feature/restaurant/viewmodels/restaurant_detail_provider.dart';
 import 'package:restaurant_app/feature/restaurant/viewmodels/search_restaurant_provider.dart';
+import 'package:restaurant_app/feature/restaurant/views/restaurant_detail_screen.dart';
 
 import 'feature/restaurant/viewmodels/restaurant_list_provider.dart';
 
@@ -28,6 +31,11 @@ void main() {
           create:
               (context) =>
                   SearchRestaurantProvider(context.read<RestaurantService>()),
+        ),
+        ChangeNotifierProvider(
+          create:
+              (context) =>
+                  RestaurantDetailProvider(context.read<RestaurantService>()),
         ),
       ],
       child: const MyApp(),
@@ -59,9 +67,11 @@ class MyApp extends StatelessWidget {
           initialRoute: '/',
           routes: {
             NavigationRoute.mainRoute.name: (context) => const MainScreen(),
-            // NavigationRoute.detailRoute.name:
-            // (context) => DetailScreen(
-            // tourismId: ModalRoute.of(context)?.settings.arguments as int,
+            NavigationRoute.detailRoute.name:
+                (context) => RestaurantDetailScreen(
+                  restaurant:
+                      ModalRoute.of(context)?.settings.arguments as Restaurant,
+                ),
             // ),
           },
         );
