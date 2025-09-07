@@ -51,13 +51,13 @@ class _RestaurantDetailScreenState extends State<RestaurantDetailScreen> {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         _buildRestaurantInfo(state.data),
-                        const SizedBox(height: 15),
+                        const SizedBox(height: 20),
                         _buildDescription(state.data),
-                        const SizedBox(height: 15),
+                        const SizedBox(height: 20),
                         _buildCategories(state.data),
-                        const SizedBox(height: 15),
+                        const SizedBox(height: 20),
                         _buildMenuSection(state.data),
-                        const SizedBox(height: 15),
+                        const SizedBox(height: 20),
                         _buildReviewsSection(state.data),
                       ],
                     ),
@@ -194,6 +194,7 @@ class _RestaurantDetailScreenState extends State<RestaurantDetailScreen> {
                 );
               },
               icon: CircleAvatar(
+                backgroundColor: Colors.white,
                 child: Icon(
                   isBookmarked ? Icons.bookmark : Icons.bookmark_border,
                   color:
@@ -240,21 +241,24 @@ class _RestaurantDetailScreenState extends State<RestaurantDetailScreen> {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        AutoSizeText(
-          restaurant.name,
-          style: TextStyle(
-            color: Theme.of(context).colorScheme.primary,
-            fontSize: 28,
-            fontWeight: FontWeight.bold,
-          ),
-          minFontSize: 20,
-          maxLines: 2,
-        ),
-        const SizedBox(height: 12),
         Row(
+          mainAxisAlignment: MainAxisAlignment.start,
           children: [
+            Expanded(
+              child: AutoSizeText(
+                restaurant.name,
+                style: TextStyle(
+                  color: Theme.of(context).colorScheme.primary,
+                  fontSize: 20,
+                  fontWeight: FontWeight.bold,
+                ),
+                minFontSize: 8,
+                maxLines: 2,
+              ),
+            ),
+            const SizedBox(width: 10),
             Icon(Icons.star, color: Colors.amber, size: 20),
-            const SizedBox(width: 4),
+            const SizedBox(width: 5),
             AutoSizeText(
               restaurant.rating.toString(),
               style: TextStyle(
@@ -265,13 +269,17 @@ class _RestaurantDetailScreenState extends State<RestaurantDetailScreen> {
               minFontSize: 12,
               maxLines: 1,
             ),
-            const SizedBox(width: 16),
-            Icon(Icons.location_on, color: Colors.grey[600], size: 20),
-            const SizedBox(width: 4),
+          ],
+        ),
+        const SizedBox(height: 5),
+        Row(
+          children: [
+            Icon(Icons.location_on, color: Colors.redAccent, size: 18),
+            const SizedBox(width: 5),
             Expanded(
               child: AutoSizeText(
                 '${restaurant.address}, ${restaurant.city}',
-                style: TextStyle(color: Colors.grey[600], fontSize: 14),
+                style: TextStyle(color: Colors.grey[600], fontSize: 12),
                 minFontSize: 12,
                 maxLines: 2,
               ),
@@ -283,6 +291,8 @@ class _RestaurantDetailScreenState extends State<RestaurantDetailScreen> {
   }
 
   Widget _buildDescription(RestaurantDetail restaurant) {
+    final ValueNotifier<bool> isExpanded = ValueNotifier<bool>(false);
+
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -290,21 +300,50 @@ class _RestaurantDetailScreenState extends State<RestaurantDetailScreen> {
           'About',
           style: TextStyle(
             color: Theme.of(context).colorScheme.primary,
-            fontSize: 20,
+            fontSize: 16,
             fontWeight: FontWeight.bold,
           ),
           minFontSize: 16,
           maxLines: 1,
         ),
-        const SizedBox(height: 12),
-        AutoSizeText(
-          restaurant.description,
-          style: TextStyle(
-            color: Theme.of(context).colorScheme.onSurface,
-            fontSize: 14,
-            height: 1.6,
-          ),
-          minFontSize: 12,
+        const SizedBox(height: 2),
+        ValueListenableBuilder<bool>(
+          valueListenable: isExpanded,
+          builder: (context, isExpandedValue, child) {
+            return Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                AutoSizeText(
+                  restaurant.description,
+                  style: TextStyle(
+                    color: Theme.of(context).colorScheme.onSurface,
+                    fontSize: 12,
+                  ),
+                  maxLines: isExpandedValue ? null : 3,
+                  overflow:
+                      isExpandedValue
+                          ? TextOverflow.visible
+                          : TextOverflow.ellipsis,
+                ),
+                GestureDetector(
+                  onTap: () {
+                    isExpanded.value = !isExpanded.value;
+                  },
+                  child: AutoSizeText(
+                    isExpandedValue ? 'See less' : 'See more',
+                    style: TextStyle(
+                      color: Theme.of(context).colorScheme.primary,
+                      fontWeight: FontWeight.bold,
+                      fontSize: 12,
+                    ),
+                    maxLines: 1,
+                    overflow: TextOverflow.ellipsis,
+                    minFontSize: 12,
+                  ),
+                ),
+              ],
+            );
+          },
         ),
       ],
     );
@@ -318,13 +357,13 @@ class _RestaurantDetailScreenState extends State<RestaurantDetailScreen> {
           'Categories',
           style: TextStyle(
             color: Theme.of(context).colorScheme.primary,
-            fontSize: 20,
+            fontSize: 16,
             fontWeight: FontWeight.bold,
           ),
           minFontSize: 16,
           maxLines: 1,
         ),
-        const SizedBox(height: 12),
+        const SizedBox(height: 8),
         Wrap(
           spacing: 8,
           runSpacing: 8,
@@ -332,14 +371,14 @@ class _RestaurantDetailScreenState extends State<RestaurantDetailScreen> {
               restaurant.categories.map((category) {
                 return Container(
                   padding: const EdgeInsets.symmetric(
-                    horizontal: 16,
-                    vertical: 8,
+                    horizontal: 20,
+                    vertical: 4,
                   ),
                   decoration: BoxDecoration(
                     color: Theme.of(
                       context,
                     ).colorScheme.primary.withOpacity(0.1),
-                    borderRadius: BorderRadius.circular(20),
+                    borderRadius: BorderRadius.circular(10),
                     border: Border.all(
                       color: Theme.of(
                         context,
@@ -371,7 +410,7 @@ class _RestaurantDetailScreenState extends State<RestaurantDetailScreen> {
           'Menu',
           style: TextStyle(
             color: Theme.of(context).colorScheme.primary,
-            fontSize: 20,
+            fontSize: 16,
             fontWeight: FontWeight.bold,
           ),
           minFontSize: 16,
@@ -409,13 +448,13 @@ class _RestaurantDetailScreenState extends State<RestaurantDetailScreen> {
             ),
           ],
         ),
-        const SizedBox(height: 12),
+        const SizedBox(height: 10),
         Container(
           width: double.infinity,
-          padding: const EdgeInsets.all(16),
+          padding: const EdgeInsets.all(15),
           decoration: BoxDecoration(
             color: Theme.of(context).colorScheme.surface,
-            borderRadius: BorderRadius.circular(12),
+            borderRadius: BorderRadius.circular(10),
             border: Border.all(
               color: Theme.of(context).colorScheme.outline.withOpacity(0.2),
             ),
@@ -427,12 +466,12 @@ class _RestaurantDetailScreenState extends State<RestaurantDetailScreen> {
                 items.map((item) {
                   return Container(
                     padding: const EdgeInsets.symmetric(
-                      horizontal: 12,
-                      vertical: 6,
+                      horizontal: 20,
+                      vertical: 4,
                     ),
                     decoration: BoxDecoration(
                       color: Theme.of(context).colorScheme.primaryContainer,
-                      borderRadius: BorderRadius.circular(16),
+                      borderRadius: BorderRadius.circular(10),
                     ),
                     child: AutoSizeText(
                       item.name,
@@ -462,10 +501,10 @@ class _RestaurantDetailScreenState extends State<RestaurantDetailScreen> {
               'Customer Reviews',
               style: TextStyle(
                 color: Theme.of(context).colorScheme.primary,
-                fontSize: 20,
-                fontWeight: FontWeight.bold,
+                fontSize: 16,
+                fontWeight: FontWeight.w600,
               ),
-              minFontSize: 16,
+              minFontSize: 14,
               maxLines: 1,
             ),
             const SizedBox(width: 8),
@@ -473,7 +512,7 @@ class _RestaurantDetailScreenState extends State<RestaurantDetailScreen> {
               padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
               decoration: BoxDecoration(
                 color: Theme.of(context).colorScheme.primary,
-                borderRadius: BorderRadius.circular(12),
+                shape: BoxShape.circle,
               ),
               child: AutoSizeText(
                 restaurant.customerReviews.length.toString(),
@@ -488,14 +527,14 @@ class _RestaurantDetailScreenState extends State<RestaurantDetailScreen> {
             ),
           ],
         ),
-        const SizedBox(height: 16),
-        ...restaurant.customerReviews.take(5).map((review) {
+        const SizedBox(height: 10),
+        ...restaurant.customerReviews.toList().map((review) {
           return Container(
-            margin: const EdgeInsets.only(bottom: 16),
-            padding: const EdgeInsets.all(16),
+            margin: const EdgeInsets.only(bottom: 10),
+            padding: const EdgeInsets.all(15),
             decoration: BoxDecoration(
               color: Theme.of(context).colorScheme.surface,
-              borderRadius: BorderRadius.circular(12),
+              borderRadius: BorderRadius.circular(10),
               border: Border.all(
                 color: Theme.of(context).colorScheme.outline.withOpacity(0.2),
               ),
@@ -521,7 +560,7 @@ class _RestaurantDetailScreenState extends State<RestaurantDetailScreen> {
                         maxLines: 1,
                       ),
                     ),
-                    const SizedBox(width: 12),
+                    const SizedBox(width: 10),
                     Expanded(
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
@@ -530,13 +569,13 @@ class _RestaurantDetailScreenState extends State<RestaurantDetailScreen> {
                             review.name,
                             style: TextStyle(
                               color: Theme.of(context).colorScheme.primary,
-                              fontSize: 14,
+                              fontSize: 12,
                               fontWeight: FontWeight.w600,
                             ),
-                            minFontSize: 12,
+                            minFontSize: 10,
                             maxLines: 1,
                           ),
-                          const SizedBox(height: 2),
+                          const SizedBox(height: 0),
                           AutoSizeText(
                             review.date,
                             style: TextStyle(
@@ -551,20 +590,19 @@ class _RestaurantDetailScreenState extends State<RestaurantDetailScreen> {
                     ),
                   ],
                 ),
-                const SizedBox(height: 12),
+                const SizedBox(height: 10),
                 AutoSizeText(
                   review.review,
                   style: TextStyle(
                     color: Theme.of(context).colorScheme.onSurface,
-                    fontSize: 14,
-                    height: 1.4,
+                    fontSize: 12,
                   ),
                   minFontSize: 12,
                 ),
               ],
             ),
           );
-        }).toList(),
+        }),
       ],
     );
   }
