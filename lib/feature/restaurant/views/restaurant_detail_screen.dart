@@ -1,3 +1,5 @@
+// ignore_for_file: use_build_context_synchronously
+
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -384,14 +386,12 @@ class _RestaurantDetailScreenState extends State<RestaurantDetailScreen> {
                     vertical: 4,
                   ),
                   decoration: BoxDecoration(
-                    color: Theme.of(
-                      context,
-                    ).colorScheme.primary.withOpacity(0.1),
+                    color: Theme.of(context).colorScheme.primary.withAlpha(25),
                     borderRadius: BorderRadius.circular(10),
                     border: Border.all(
                       color: Theme.of(
                         context,
-                      ).colorScheme.primary.withOpacity(0.3),
+                      ).colorScheme.primary.withAlpha(77),
                     ),
                   ),
                   child: AutoSizeText(
@@ -465,7 +465,7 @@ class _RestaurantDetailScreenState extends State<RestaurantDetailScreen> {
             color: Theme.of(context).colorScheme.surface,
             borderRadius: BorderRadius.circular(10),
             border: Border.all(
-              color: Theme.of(context).colorScheme.outline.withOpacity(0.2),
+              color: Theme.of(context).colorScheme.outline.withAlpha(51),
             ),
           ),
           child: Wrap(
@@ -547,7 +547,7 @@ class _RestaurantDetailScreenState extends State<RestaurantDetailScreen> {
             color: Theme.of(context).colorScheme.surface,
             borderRadius: BorderRadius.circular(10),
             border: Border.all(
-              color: Theme.of(context).colorScheme.outline.withOpacity(0.2),
+              color: Theme.of(context).colorScheme.outline.withAlpha(51),
             ),
           ),
           child: Column(
@@ -731,7 +731,7 @@ class _RestaurantDetailScreenState extends State<RestaurantDetailScreen> {
               color: Theme.of(context).colorScheme.surface,
               borderRadius: BorderRadius.circular(10),
               border: Border.all(
-                color: Theme.of(context).colorScheme.outline.withOpacity(0.2),
+                color: Theme.of(context).colorScheme.outline.withAlpha(51),
               ),
             ),
             child: Column(
