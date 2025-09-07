@@ -8,6 +8,9 @@ import 'package:restaurant_app/feature/restaurant/viewmodels/restaurant_detail_s
 import 'package:restaurant_app/feature/restaurant/viewmodels/restaurant_bookmark_provider.dart';
 import 'package:restaurant_app/core/widgets/loading_widget.dart';
 import 'package:shimmer/shimmer.dart';
+import 'package:restaurant_app/feature/restaurant/models/add_review_request.dart';
+import 'package:restaurant_app/feature/restaurant/viewmodels/add_review_provider.dart';
+import 'package:restaurant_app/feature/restaurant/viewmodels/add_review_state.dart';
 
 class RestaurantDetailScreen extends StatefulWidget {
   final Restaurant? restaurant;
@@ -26,6 +29,7 @@ class _RestaurantDetailScreenState extends State<RestaurantDetailScreen> {
       context.read<RestaurantDetailProvider>().fetchRestaurantDetail(
         widget.restaurant?.id ?? '',
       );
+      context.read<AddReviewProvider>().resetState();
     });
   }
 
@@ -194,13 +198,13 @@ class _RestaurantDetailScreenState extends State<RestaurantDetailScreen> {
                 );
               },
               icon: CircleAvatar(
-                backgroundColor: Colors.white,
+                backgroundColor: Theme.of(context).colorScheme.primary,
                 child: Icon(
                   isBookmarked ? Icons.bookmark : Icons.bookmark_border,
                   color:
                       isBookmarked
                           ? Colors.amber[700]
-                          : Theme.of(context).colorScheme.primary,
+                          : Theme.of(context).colorScheme.onPrimary,
                 ),
               ),
             );
@@ -273,14 +277,18 @@ class _RestaurantDetailScreenState extends State<RestaurantDetailScreen> {
         ),
         const SizedBox(height: 5),
         Row(
+          crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Icon(Icons.location_on, color: Colors.redAccent, size: 18),
             const SizedBox(width: 5),
             Expanded(
               child: AutoSizeText(
                 '${restaurant.address}, ${restaurant.city}',
-                style: TextStyle(color: Colors.grey[600], fontSize: 12),
-                minFontSize: 12,
+                style: TextStyle(
+                  color: Theme.of(context).colorScheme.onSurface,
+                  fontSize: 12,
+                ),
+                minFontSize: 8,
                 maxLines: 2,
               ),
             ),
@@ -319,6 +327,7 @@ class _RestaurantDetailScreenState extends State<RestaurantDetailScreen> {
                     color: Theme.of(context).colorScheme.onSurface,
                     fontSize: 12,
                   ),
+                  minFontSize: 12,
                   maxLines: isExpandedValue ? null : 3,
                   overflow:
                       isExpandedValue
@@ -440,8 +449,8 @@ class _RestaurantDetailScreenState extends State<RestaurantDetailScreen> {
               title,
               style: TextStyle(
                 color: Theme.of(context).colorScheme.primary,
-                fontSize: 16,
-                fontWeight: FontWeight.w600,
+                fontSize: 14,
+                fontWeight: FontWeight.bold,
               ),
               minFontSize: 14,
               maxLines: 1,
@@ -492,6 +501,9 @@ class _RestaurantDetailScreenState extends State<RestaurantDetailScreen> {
   }
 
   Widget _buildReviewsSection(RestaurantDetail restaurant) {
+    final nameController = TextEditingController();
+    final reviewController = TextEditingController();
+
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -528,7 +540,190 @@ class _RestaurantDetailScreenState extends State<RestaurantDetailScreen> {
           ],
         ),
         const SizedBox(height: 10),
-        ...restaurant.customerReviews.toList().map((review) {
+        Container(
+          margin: const EdgeInsets.only(bottom: 16),
+          padding: const EdgeInsets.all(16),
+          decoration: BoxDecoration(
+            color: Theme.of(context).colorScheme.surface,
+            borderRadius: BorderRadius.circular(10),
+            border: Border.all(
+              color: Theme.of(context).colorScheme.outline.withOpacity(0.2),
+            ),
+          ),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              AutoSizeText(
+                'Add Your Review',
+                style: TextStyle(
+                  color: Theme.of(context).colorScheme.primary,
+                  fontSize: 14,
+                  fontWeight: FontWeight.bold,
+                ),
+                minFontSize: 14,
+                maxLines: 1,
+              ),
+              const SizedBox(height: 12),
+              TextField(
+                controller: nameController,
+                decoration: InputDecoration(
+                  hintText: 'Your Name',
+                  border: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(10),
+                  ),
+                  contentPadding: const EdgeInsets.symmetric(
+                    horizontal: 12,
+                    vertical: 12,
+                  ),
+                ),
+                style: TextStyle(fontSize: 12),
+              ),
+              const SizedBox(height: 10),
+              TextField(
+                controller: reviewController,
+                decoration: InputDecoration(
+                  hintText: 'Write your review here...',
+                  border: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(10),
+                  ),
+                  contentPadding: const EdgeInsets.symmetric(
+                    horizontal: 12,
+                    vertical: 12,
+                  ),
+                ),
+                style: TextStyle(fontSize: 12),
+                maxLines: 3,
+              ),
+              const SizedBox(height: 12),
+              Consumer<AddReviewProvider>(
+                builder: (context, addReviewProvider, child) {
+                  final state = addReviewProvider.addReviewState;
+
+                  return Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      if (state is AddReviewErrorState)
+                        Padding(
+                          padding: const EdgeInsets.only(bottom: 8.0),
+                          child: Text(
+                            state.message,
+                            style: TextStyle(
+                              color: Theme.of(context).colorScheme.error,
+                              fontSize: 12,
+                            ),
+                          ),
+                        ),
+                      if (state is AddReviewSuccessState)
+                        Padding(
+                          padding: const EdgeInsets.only(bottom: 8.0),
+                          child: Text(
+                            'Review added successfully!',
+                            style: TextStyle(color: Colors.green, fontSize: 12),
+                          ),
+                        ),
+                      SizedBox(
+                        width: double.infinity,
+                        child: ElevatedButton.icon(
+                          style: ElevatedButton.styleFrom(
+                            backgroundColor:
+                                Theme.of(context).colorScheme.primary,
+                            foregroundColor:
+                                Theme.of(context).colorScheme.onPrimary,
+                            padding: const EdgeInsets.symmetric(
+                              horizontal: 20,
+                              vertical: 10,
+                            ),
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(10),
+                            ),
+                            elevation: 0,
+                            shadowColor: Colors.transparent,
+                          ).copyWith(
+                            overlayColor: WidgetStateProperty.all(
+                              Colors.transparent,
+                            ),
+                          ),
+                          icon:
+                              state is AddReviewLoadingState
+                                  ? Container(
+                                    width: 24,
+                                    height: 24,
+                                    padding: const EdgeInsets.all(2.0),
+                                    child: const CircularProgressIndicator(
+                                      color: Colors.white,
+                                      strokeWidth: 3,
+                                    ),
+                                  )
+                                  : const Icon(Icons.send),
+                          label: Text(
+                            state is AddReviewLoadingState
+                                ? 'Submitting...'
+                                : 'Submit Review',
+                            style: const TextStyle(
+                              fontWeight: FontWeight.w600,
+                              fontSize: 14,
+                            ),
+                          ),
+                          onPressed:
+                              state is AddReviewLoadingState
+                                  ? null
+                                  : () {
+                                    if (nameController.text.isEmpty ||
+                                        reviewController.text.isEmpty) {
+                                      ScaffoldMessenger.of(
+                                        context,
+                                      ).showSnackBar(
+                                        const SnackBar(
+                                          content: Text(
+                                            'Please fill all fields',
+                                          ),
+                                        ),
+                                      );
+                                      return;
+                                    }
+
+                                    final request = AddReviewRequest(
+                                      id: restaurant.id,
+                                      name: nameController.text,
+                                      review: reviewController.text,
+                                    );
+
+                                    addReviewProvider.addReview(request).then((
+                                      _,
+                                    ) {
+                                      final currentState =
+                                          addReviewProvider.addReviewState;
+                                      if (currentState
+                                          is AddReviewSuccessState) {
+                                        context
+                                            .read<RestaurantDetailProvider>()
+                                            .fetchRestaurantDetail(
+                                              restaurant.id,
+                                            );
+
+                                        nameController.clear();
+                                        reviewController.clear();
+
+                                        Future.delayed(
+                                          const Duration(seconds: 3),
+                                          () {
+                                            addReviewProvider.resetState();
+                                          },
+                                        );
+                                      }
+                                    });
+                                  },
+                        ),
+                      ),
+                    ],
+                  );
+                },
+              ),
+            ],
+          ),
+        ),
+
+        ...restaurant.customerReviews.map((review) {
           return Container(
             margin: const EdgeInsets.only(bottom: 10),
             padding: const EdgeInsets.all(15),

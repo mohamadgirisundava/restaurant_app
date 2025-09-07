@@ -9,10 +9,10 @@ import 'package:restaurant_app/feature/restaurant/models/restaurant.dart';
 import 'package:restaurant_app/feature/restaurant/services/restaurant_service.dart';
 import 'package:restaurant_app/feature/restaurant/viewmodels/restaurant_bookmark_provider.dart';
 import 'package:restaurant_app/feature/restaurant/viewmodels/restaurant_detail_provider.dart';
+import 'package:restaurant_app/feature/restaurant/viewmodels/restaurant_list_provider.dart';
 import 'package:restaurant_app/feature/restaurant/viewmodels/search_restaurant_provider.dart';
 import 'package:restaurant_app/feature/restaurant/views/restaurant_detail_screen.dart';
-
-import 'feature/restaurant/viewmodels/restaurant_list_provider.dart';
+import 'package:restaurant_app/feature/restaurant/viewmodels/add_review_provider.dart';
 
 void main() {
   runApp(
@@ -36,6 +36,10 @@ void main() {
           create:
               (context) =>
                   RestaurantDetailProvider(context.read<RestaurantService>()),
+        ),
+        ChangeNotifierProvider(
+          create:
+              (context) => AddReviewProvider(context.read<RestaurantService>()),
         ),
       ],
       child: const MyApp(),
