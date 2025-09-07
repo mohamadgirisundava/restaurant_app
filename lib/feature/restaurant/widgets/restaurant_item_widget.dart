@@ -28,7 +28,7 @@ class RestaurantItemWidget extends StatelessWidget {
         margin: const EdgeInsets.symmetric(horizontal: 16),
         decoration: BoxDecoration(
           color: isDarkMode ? Colors.grey[900] : Theme.of(context).cardColor,
-          borderRadius: BorderRadius.circular(8),
+          borderRadius: BorderRadius.circular(10),
           border:
               isDarkMode
                   ? Border.all(color: Colors.white12, width: 1)
@@ -52,7 +52,7 @@ class RestaurantItemWidget extends StatelessWidget {
               Hero(
                 tag: 'restaurant_image_${data?.pictureId ?? ''}',
                 child: ClipRRect(
-                  borderRadius: BorderRadius.circular(8),
+                  borderRadius: BorderRadius.circular(10),
                   child: Image.network(
                     'https://restaurant-api.dicoding.dev/images/medium/${data?.pictureId ?? ''}',
                     width: 80,
@@ -120,7 +120,7 @@ class RestaurantItemWidget extends StatelessWidget {
                     AutoSizeText(
                       data?.description ?? '-',
                       style: TextStyle(
-                        color: Colors.grey,
+                        color: Theme.of(context).colorScheme.onSurface,
                         fontSize: 12,
                         fontWeight: FontWeight.w400,
                       ),
@@ -133,18 +133,18 @@ class RestaurantItemWidget extends StatelessWidget {
                       children: [
                         Icon(
                           Icons.location_on,
-                          color: Colors.grey[500],
+                          color: Colors.redAccent,
                           size: 14,
                         ),
                         const SizedBox(width: 4),
                         AutoSizeText(
                           data?.city ?? '-',
                           style: TextStyle(
-                            color: Colors.grey,
+                            color: Theme.of(context).colorScheme.onSurface,
                             fontSize: 12,
                             fontWeight: FontWeight.w400,
                           ),
-                          minFontSize: 8,
+                          minFontSize: 12,
                           maxLines: 2,
                           overflow: TextOverflow.ellipsis,
                         ),

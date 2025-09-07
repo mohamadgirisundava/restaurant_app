@@ -28,8 +28,8 @@ class MainTheme {
       toolbarTextStyle: _textTheme.titleLarge,
       shape: const RoundedRectangleBorder(
         borderRadius: BorderRadius.only(
-          bottomLeft: Radius.circular(16),
-          bottomRight: Radius.circular(16),
+          bottomLeft: Radius.circular(0),
+          bottomRight: Radius.circular(0),
         ),
       ),
       centerTitle: true,

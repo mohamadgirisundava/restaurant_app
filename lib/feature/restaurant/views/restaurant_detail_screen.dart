@@ -198,13 +198,13 @@ class _RestaurantDetailScreenState extends State<RestaurantDetailScreen> {
                 );
               },
               icon: CircleAvatar(
-                backgroundColor: Theme.of(context).colorScheme.primary,
+                backgroundColor: Theme.of(context).colorScheme.onPrimary,
                 child: Icon(
                   isBookmarked ? Icons.bookmark : Icons.bookmark_border,
                   color:
                       isBookmarked
                           ? Colors.amber[700]
-                          : Theme.of(context).colorScheme.onPrimary,
+                          : Theme.of(context).colorScheme.primary,
                 ),
               ),
             );
