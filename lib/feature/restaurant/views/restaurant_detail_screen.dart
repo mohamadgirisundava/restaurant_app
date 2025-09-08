@@ -14,6 +14,8 @@ import 'package:restaurant_app/feature/restaurant/models/add_review_request.dart
 import 'package:restaurant_app/feature/restaurant/viewmodels/add_review_provider.dart';
 import 'package:restaurant_app/feature/restaurant/viewmodels/add_review_state.dart';
 
+import '../../../core/style/colors/main_color.dart';
+
 class RestaurantDetailScreen extends StatefulWidget {
   final Restaurant? restaurant;
 
@@ -92,8 +94,8 @@ class _RestaurantDetailScreenState extends State<RestaurantDetailScreen> {
           ),
           flexibleSpace: FlexibleSpaceBar(
             background: Shimmer.fromColors(
-              baseColor: Colors.grey[300]!,
-              highlightColor: Colors.grey[200]!,
+              baseColor: MainColor.grey300.color,
+              highlightColor: MainColor.grey200.color,
               child: Container(color: Colors.white),
             ),
           ),
@@ -116,7 +118,7 @@ class _RestaurantDetailScreenState extends State<RestaurantDetailScreen> {
           ),
           flexibleSpace: FlexibleSpaceBar(
             background: Container(
-              color: Colors.grey[300],
+              color: MainColor.grey300.color,
               child: const Center(
                 child: Icon(Icons.error_outline, size: 64, color: Colors.grey),
               ),
@@ -205,7 +207,7 @@ class _RestaurantDetailScreenState extends State<RestaurantDetailScreen> {
                   isBookmarked ? Icons.bookmark : Icons.bookmark_border,
                   color:
                       isBookmarked
-                          ? Colors.amber[700]
+                          ? MainColor.amber700.color
                           : Theme.of(context).colorScheme.primary,
                 ),
               ),
@@ -222,14 +224,14 @@ class _RestaurantDetailScreenState extends State<RestaurantDetailScreen> {
             loadingBuilder: (context, child2, loadingProgress) {
               if (loadingProgress == null) return child2;
               return Shimmer.fromColors(
-                baseColor: Colors.grey[300]!,
-                highlightColor: Colors.grey[200]!,
+                baseColor: MainColor.grey300.color,
+                highlightColor: MainColor.grey200.color,
                 child: Container(color: Colors.white),
               );
             },
             errorBuilder: (context, error, stackTrace) {
               return Container(
-                color: Colors.grey[300],
+                color: MainColor.grey300.color,
                 child: const Icon(
                   Icons.restaurant,
                   size: 64,
@@ -268,7 +270,7 @@ class _RestaurantDetailScreenState extends State<RestaurantDetailScreen> {
             AutoSizeText(
               restaurant.rating.toString(),
               style: TextStyle(
-                color: Colors.amber[700],
+                color: MainColor.amber700.color,
                 fontWeight: FontWeight.w600,
                 fontSize: 16,
               ),
@@ -774,7 +776,7 @@ class _RestaurantDetailScreenState extends State<RestaurantDetailScreen> {
                           AutoSizeText(
                             review.date,
                             style: TextStyle(
-                              color: Colors.grey[600],
+                              color: MainColor.grey600.color,
                               fontSize: 12,
                             ),
                             minFontSize: 10,

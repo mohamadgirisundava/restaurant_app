@@ -4,6 +4,7 @@ import 'package:provider/provider.dart';
 import 'package:restaurant_app/core/static/navigation_route.dart';
 import 'package:shimmer/shimmer.dart';
 
+import '../../../core/style/colors/main_color.dart';
 import '../models/restaurant.dart';
 import '../viewmodels/restaurant_bookmark_provider.dart';
 
@@ -27,7 +28,10 @@ class RestaurantItemWidget extends StatelessWidget {
       child: Container(
         margin: const EdgeInsets.symmetric(horizontal: 16),
         decoration: BoxDecoration(
-          color: isDarkMode ? Colors.grey[900] : Theme.of(context).cardColor,
+          color:
+              isDarkMode
+                  ? MainColor.grey900.color
+                  : Theme.of(context).cardColor,
           borderRadius: BorderRadius.circular(10),
           border:
               isDarkMode
@@ -62,8 +66,8 @@ class RestaurantItemWidget extends StatelessWidget {
                       if (loadingProgress == null) return value;
 
                       return Shimmer.fromColors(
-                        baseColor: Colors.grey[300]!,
-                        highlightColor: Colors.grey[200]!,
+                        baseColor: MainColor.grey300.color,
+                        highlightColor: MainColor.grey200.color,
                         child: Container(
                           width: 80,
                           height: 80,
@@ -75,7 +79,7 @@ class RestaurantItemWidget extends StatelessWidget {
                       return Container(
                         width: 80,
                         height: 80,
-                        color: Colors.grey[300],
+                        color: MainColor.grey300.color,
                         child: const Icon(Icons.restaurant, color: Colors.grey),
                       );
                     },
@@ -106,7 +110,7 @@ class RestaurantItemWidget extends StatelessWidget {
                         AutoSizeText(
                           data?.rating.toString() ?? '-',
                           style: TextStyle(
-                            color: Colors.amber[700],
+                            color: MainColor.amber700.color,
                             fontWeight: FontWeight.w600,
                             fontSize: 12,
                           ),
@@ -163,7 +167,9 @@ class RestaurantItemWidget extends StatelessWidget {
                     icon: Icon(
                       isBookmarked ? Icons.bookmark : Icons.bookmark_border,
                       color:
-                          isBookmarked ? Colors.amber[700] : Colors.grey[600],
+                          isBookmarked
+                              ? MainColor.amber700.color
+                              : MainColor.grey600.color,
                     ),
                   );
                 },
