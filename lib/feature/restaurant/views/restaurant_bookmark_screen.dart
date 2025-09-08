@@ -10,7 +10,7 @@ class RestaurantBookmarkScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Consumer<ThemeProvider>(
+    return Consumer<HomeProvider>(
       builder: (context, themeProvider, child) {
         final isDarkMode = Theme.of(context).brightness == Brightness.dark;
 

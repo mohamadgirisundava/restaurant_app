@@ -11,7 +11,8 @@ class AddReviewResponse {
     required this.customerReviews,
   });
 
-  factory AddReviewResponse.fromJson(Map<String, dynamic> json) => AddReviewResponse(
+  factory AddReviewResponse.fromJson(Map<String, dynamic> json) =>
+      AddReviewResponse(
         error: json["error"],
         message: json["message"],
         customerReviews: List<CustomerReview>.from(

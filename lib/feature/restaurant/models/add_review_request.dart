@@ -9,9 +9,5 @@ class AddReviewRequest {
     required this.review,
   });
 
-  Map<String, dynamic> toJson() => {
-        "id": id,
-        "name": name,
-        "review": review,
-      };
+  Map<String, dynamic> toJson() => {"id": id, "name": name, "review": review};
 }

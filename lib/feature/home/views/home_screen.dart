@@ -22,7 +22,6 @@ class HomeScreen extends StatefulWidget {
 
 class _HomeScreenState extends State<HomeScreen> {
   final TextEditingController _searchController = TextEditingController();
-  bool _isSearching = false;
 
   @override
   void initState() {
@@ -40,23 +39,21 @@ class _HomeScreenState extends State<HomeScreen> {
 
   void _performSearch(String query) {
     if (query.trim().isNotEmpty) {
-      setState(() {
-        _isSearching = true;
-      });
+      context.read<HomeProvider>().startSearch(query);
       context.read<SearchRestaurantProvider>().searchRestaurant(query);
     }
   }
 
   void _clearSearch() {
-    setState(() {
-      _isSearching = false;
-    });
+    context.read<HomeProvider>().clearSearch();
     _searchController.clear();
   }
 
   @override
   Widget build(BuildContext context) {
-    return Consumer<ThemeProvider>(
+    bool isSearching = context.watch<HomeProvider>().isSearching;
+
+    return Consumer<HomeProvider>(
       builder: (context, themeProvider, child) {
         final isDarkMode = Theme.of(context).brightness == Brightness.dark;
 
@@ -77,7 +74,7 @@ class _HomeScreenState extends State<HomeScreen> {
           ),
           body: RefreshIndicator(
             onRefresh: () async {
-              if (_isSearching) {
+              if (isSearching) {
                 _clearSearch();
               }
               context.read<RestaurantListProvider>().fetchRestaurantList();
@@ -109,7 +106,7 @@ class _HomeScreenState extends State<HomeScreen> {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         AutoSizeText(
-                          _isSearching ? 'Search Results' : 'All Restaurants',
+                          isSearching ? 'Search Results' : 'All Restaurants',
                           style: TextStyle(
                             color: Theme.of(context).colorScheme.primary,
                             fontSize: 18,
@@ -120,7 +117,7 @@ class _HomeScreenState extends State<HomeScreen> {
                           overflow: TextOverflow.ellipsis,
                         ),
                         AutoSizeText(
-                          _isSearching
+                          isSearching
                               ? 'Results for "${_searchController.text}"'
                               : 'Discover places to eat around you',
                           style: TextStyle(
@@ -138,7 +135,7 @@ class _HomeScreenState extends State<HomeScreen> {
                   ),
                 ),
 
-                _isSearching
+                isSearching
                     ? Consumer<SearchRestaurantProvider>(
                       builder: (context, searchProvider, child) {
                         final searchState =

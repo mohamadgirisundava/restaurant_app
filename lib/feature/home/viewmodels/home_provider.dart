@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-class ThemeProvider extends ChangeNotifier {
+class HomeProvider extends ChangeNotifier {
   ThemeMode _themeMode = ThemeMode.system;
 
   ThemeMode get themeMode => _themeMode;
@@ -37,6 +37,24 @@ class ThemeProvider extends ChangeNotifier {
 
   void setSystemMode() {
     _themeMode = ThemeMode.system;
+    notifyListeners();
+  }
+
+  bool _isSearching = false;
+  String _searchQuery = '';
+
+  bool get isSearching => _isSearching;
+  String get searchQuery => _searchQuery;
+
+  void startSearch(String query) {
+    _isSearching = true;
+    _searchQuery = query;
+    notifyListeners();
+  }
+
+  void clearSearch() {
+    _isSearching = false;
+    _searchQuery = '';
     notifyListeners();
   }
 }

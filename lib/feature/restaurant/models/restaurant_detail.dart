@@ -23,22 +23,23 @@ class RestaurantDetail {
     required this.customerReviews,
   });
 
-  factory RestaurantDetail.fromJson(Map<String, dynamic> json) => RestaurantDetail(
-    id: json["id"],
-    name: json["name"],
-    description: json["description"],
-    city: json["city"],
-    address: json["address"],
-    pictureId: json["pictureId"],
-    categories: List<Category>.from(
-      json["categories"].map((x) => Category.fromJson(x)),
-    ),
-    menus: Menus.fromJson(json["menus"]),
-    rating: json["rating"]?.toDouble(),
-    customerReviews: List<CustomerReview>.from(
-      json["customerReviews"].map((x) => CustomerReview.fromJson(x)),
-    ),
-  );
+  factory RestaurantDetail.fromJson(Map<String, dynamic> json) =>
+      RestaurantDetail(
+        id: json["id"],
+        name: json["name"],
+        description: json["description"],
+        city: json["city"],
+        address: json["address"],
+        pictureId: json["pictureId"],
+        categories: List<Category>.from(
+          json["categories"].map((x) => Category.fromJson(x)),
+        ),
+        menus: Menus.fromJson(json["menus"]),
+        rating: json["rating"]?.toDouble(),
+        customerReviews: List<CustomerReview>.from(
+          json["customerReviews"].map((x) => CustomerReview.fromJson(x)),
+        ),
+      );
 }
 
 class Category {
@@ -46,9 +47,8 @@ class Category {
 
   Category({required this.name});
 
-  factory Category.fromJson(Map<String, dynamic> json) => Category(
-    name: json["name"],
-  );
+  factory Category.fromJson(Map<String, dynamic> json) =>
+      Category(name: json["name"]);
 }
 
 class Menus {
@@ -58,9 +58,7 @@ class Menus {
   Menus({required this.foods, required this.drinks});
 
   factory Menus.fromJson(Map<String, dynamic> json) => Menus(
-    foods: List<MenuItem>.from(
-      json["foods"].map((x) => MenuItem.fromJson(x)),
-    ),
+    foods: List<MenuItem>.from(json["foods"].map((x) => MenuItem.fromJson(x))),
     drinks: List<MenuItem>.from(
       json["drinks"].map((x) => MenuItem.fromJson(x)),
     ),
@@ -72,9 +70,8 @@ class MenuItem {
 
   MenuItem({required this.name});
 
-  factory MenuItem.fromJson(Map<String, dynamic> json) => MenuItem(
-    name: json["name"],
-  );
+  factory MenuItem.fromJson(Map<String, dynamic> json) =>
+      MenuItem(name: json["name"]);
 }
 
 class CustomerReview {

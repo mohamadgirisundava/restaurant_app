@@ -22,7 +22,9 @@ class RestaurantDetailProvider extends ChangeNotifier {
         _restaurantDetailState = RestaurantDetailErrorState(response.message);
         notifyListeners();
       } else {
-        _restaurantDetailState = RestaurantDetailSuccessState(response.restaurant);
+        _restaurantDetailState = RestaurantDetailSuccessState(
+          response.restaurant,
+        );
         notifyListeners();
       }
     } on Exception catch (e) {
