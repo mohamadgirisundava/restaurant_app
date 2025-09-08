@@ -1,5 +1,5 @@
 import 'dart:convert';
-import 'dart:io'; // biar bisa detect SocketException
+import 'dart:io';
 import 'package:http/http.dart' as http;
 
 import 'package:restaurant_app/feature/restaurant/models/restaurant_list_response.dart';
@@ -17,12 +17,12 @@ class RestaurantService {
       if (response.statusCode == 200) {
         return RestaurantListResponse.fromJson(json.decode(response.body));
       } else {
-        throw Exception('Gagal memuat daftar restoran. Coba lagi nanti.');
+        throw Exception(
+          'Failed to load restaurant list. Please try again later.',
+        );
       }
     } on SocketException {
-      throw Exception(
-        'Tidak ada koneksi internet. Silakan periksa jaringan Anda.',
-      );
+      throw Exception('No internet connection. Please check your network.');
     } catch (e) {
       rethrow;
     }
@@ -34,12 +34,12 @@ class RestaurantService {
       if (response.statusCode == 200) {
         return SearchRestaurantResponse.fromJson(json.decode(response.body));
       } else {
-        throw Exception('Gagal memuat hasil pencarian. Coba lagi nanti.');
+        throw Exception(
+          'Failed to load search results. Please try again later.',
+        );
       }
     } on SocketException {
-      throw Exception(
-        'Tidak ada koneksi internet. Silakan periksa jaringan Anda.',
-      );
+      throw Exception('No internet connection. Please check your network.');
     } catch (e) {
       rethrow;
     }
@@ -51,12 +51,12 @@ class RestaurantService {
       if (response.statusCode == 200) {
         return RestaurantDetailResponse.fromJson(json.decode(response.body));
       } else {
-        throw Exception('Gagal memuat detail restoran. Coba lagi nanti.');
+        throw Exception(
+          'Failed to load restaurant details. Please try again later.',
+        );
       }
     } on SocketException {
-      throw Exception(
-        'Tidak ada koneksi internet. Silakan periksa jaringan Anda.',
-      );
+      throw Exception('No internet connection. Please check your network.');
     } catch (e) {
       rethrow;
     }
@@ -72,12 +72,10 @@ class RestaurantService {
       if (response.statusCode == 200 || response.statusCode == 201) {
         return AddReviewResponse.fromJson(json.decode(response.body));
       } else {
-        throw Exception('Gagal menambahkan review. Coba lagi nanti.');
+        throw Exception('Failed to add review. Please try again later.');
       }
     } on SocketException {
-      throw Exception(
-        'Tidak ada koneksi internet. Silakan periksa jaringan Anda.',
-      );
+      throw Exception('No internet connection. Please check your network.');
     } catch (e) {
       rethrow;
     }
